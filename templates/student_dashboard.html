@@ -1,0 +1,23 @@
+{% extends "base.html" %} {% block content %}
+<div class="container mt-5">
+    <table class="table table-bordered table-striped">
+        <thead class="thead-dark">
+            <tr>
+                <th>Course</th>
+                <th>Attendance</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for attendance in attendance_details %}
+            <tr>
+                <td>{{ attendance.courseid_taken }}</td>
+                <td>{{ attendance.total_attendance }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+
+
+{% endblock %}

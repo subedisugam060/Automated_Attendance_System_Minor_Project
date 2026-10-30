@@ -1,0 +1,142 @@
+{% extends "base.html" %}
+
+{% block extra_css %}
+<!--horizontal form styling-->
+<style>
+.routine-form .row {
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.routine-form .form-select {
+    margin: 0 5px;
+    padding: 8px 12px;
+    border-radius: 4px;
+    border: 1px solid #ced4da;
+}
+
+.routine-form .header {
+    background-color: #f8f9fa;
+    padding: 10px;
+    border-bottom: 2px solid #dee2e6;
+    font-weight: 600;
+}
+
+.btn-add-row {
+    margin-top: 20px;
+    background-color: #6c757d;
+    color: white;
+}
+
+/* Time dropdowns styling */
+.time-select {
+    min-width: 120px;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <form method="POST" action="{{url_for('update', name=name, faculty=faculty, sem=sem)}}">
+        <!-- Header -->
+        <div class="row header mb-2">
+            <div class="col-md-2"><strong>DAY</strong></div>
+            <div class="col-md-2"><strong>FROM TIME</strong></div>
+            <div class="col-md-2"><strong>TO TIME</strong></div>
+            <div class="col-md-3"><strong>COURSE</strong></div>
+            <div class="col-md-3"><strong>TEACHER</strong></div>
+        </div>
+
+        <!-- Routine Rows -->
+        <div class="routine-rows">
+            <!-- Initial Row -->
+            <div class="row mb-3" id="row1">
+                <div class="col-md-2">
+                    <select class="form-select" name="day[]" required>
+                        <option value="">Select Day</option>
+                        <option>Sunday</option>
+                        <option>Monday</option>
+                        <option>Tuesday</option>
+                        <option>Wednesday</option>
+                        <option>Thursday</option>
+                        <option>Friday</option>
+                        <option>Saturday</option>
+
+
+                    </select>
+                </div>
+
+                <div class="col-md-2">
+                    <select class="form-select" name="from_time[]" required>
+                        <option value="">From</option>
+                        {%  for from_time in from_times %}
+                        <option>{{ from_time }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="col-md-2">
+                    <select class="form-select" name="to_time[]" required>
+                        <option value="">To</option>
+                        {% for to_time in to_times %}
+                        <option>{{ to_time }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="col-md-3">
+                    <select class="form-select" name="course[]" required>
+                        <option value="">Select Course</option>
+                        {% for course in courses %}
+                        <option>{{ course.course }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="col-md-3">
+                    <select class="form-select" name="teacher[]" required>
+                        <option value="">Select Teacher</option>
+                            {% for teacher in teachers %}
+                        <option>{{ teacher.first_name ~ ' ' ~ teacher.last_name }}</option>
+                            {% endfor %}
+
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- Control Buttons -->
+        <div class="row mt-4">
+            <div class="col-md-6">
+                <button type="button" class="btn btn-secondary" onclick="addRow()">
+                    Add Row
+                </button>
+            </div>
+            <div class="col-md-6 text-end">
+                <button type="submit" class="btn btn-primary">
+                    Save Routine
+                </button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<script>
+
+  function addRow() {
+        var routineRows = document.querySelector(".routine-rows");  // Use querySelector for the class
+        var newRow = document.getElementById("row1").cloneNode(true); // Clone the first row
+
+        // Clear the input fields of the new row
+        var inputs = newRow.querySelectorAll('select');
+        inputs.forEach(function(input) {
+            input.value = "";  // Reset value of each input
+        });
+
+        // Append the new row to the routine-rows container
+        routineRows.appendChild(newRow);
+    }
+
+</script>
+
+{% endblock %}

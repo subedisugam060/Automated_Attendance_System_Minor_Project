@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="card shadow">
+        <div class="card-header bg-primary text-white">
+            <h4>Maintain Course Details</h4>
+        </div>
+        <div class="card-body">
+            <form action="{{ url_for('course_details', classid=classid, course_name = course_name) }}" method="POST">
+
+                <div class="mb-3">
+                    <label class="form-label">Course Name</label>
+                    <input type ='text' class="form-control" value="{{ course_name }}" readonly/>
+                </div>
+
+                <!-- Class ID Dropdown (Dynamic) -->
+                <div class="mb-3">
+                    <label class="form-label">Class Identifier</label>
+                    <input type ='text' class="form-control" value="{{ classid }}" readonly/>
+                </div>
+
+
+                <!-- Teacher Fields -->
+                <div class="mb-3">
+                    <label class="form-label">Teacher's First Name</label>
+                    <input type="text" class="form-control" value="{{ first_name }}" id="teacher_firstname" name="teacher_firstname" required>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Teacher's Last Name</label>
+                    <input type="text" class="form-control" value="{{ last_name }}" id="teacher_lastname" name="teacher_lastname" required>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Submit</button>
+                <a href="{{ url_for('admin', name=admin_name) }}" class="btn btn-secondary">Cancel</a>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
